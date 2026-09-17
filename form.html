@@ -1,0 +1,1461 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ثبت بیمار جدید</title>
+    <script>
+    (function() {
+        var theme = localStorage.getItem('theme') || 'light';
+        if (theme === 'dark') {
+            document.documentElement.classList.add('dark');
+        }
+    })();
+</script>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#00897B">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <button onclick="window.location.href = 'index.html'">بازگشت</button>
+      <h1>ثبت بیمار جدید</h1>
+      <button id="theme-toggle-btn" title="حالت تیره/روشن"><i data-lucide="moon"></i></button>
+    </header>
+    <main>
+      <form id="patient-form">
+        <section id="personal-info">
+          <h2>اطلاعات شخصی</h2>
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="patient-name">نام و نام خانوادگی</label>
+              <input
+                type="text"
+                id="patient-name"
+                name="patient-name"
+                placeholder="نام کامل بیمار"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="patient-age">سن</label>
+              <input
+                type="number"
+                id="patient-age"
+                name="patient-age"
+                min="0"
+                max="150"
+              />
+            </div>
+
+            <div class="form-group">
+              <label>جنسیت: </label>
+              <input type="radio" id="male" name="gender" value="مرد" />
+              <label for="male">مرد</label>
+              <input type="radio" id="female" name="gender" value="زن" />
+              <label for="female">زن</label>
+            </div>
+
+            <div class="form-group">
+              <label>وضعیت تاهل: </label>
+              <input
+                type="radio"
+                id="single"
+                name="marital-status"
+                value="مجرد"
+              />
+              <label for="single">مجرد</label>
+              <input
+                type="radio"
+                id="married"
+                name="marital-status"
+                value="متاهل"
+              />
+              <label for="married">متاهل</label>
+            </div>
+
+            <div class="form-group">
+              <label for="education">سطح سواد</label>
+              <select id="education" name="education">
+                <option value="">انتخاب کنید</option>
+                <option value="بی‌سواد">بی‌سواد</option>
+                <option value="ابتدایی">ابتدایی</option>
+                <option value="راهنمایی">راهنمایی</option>
+                <option value="دیپلم">دیپلم</option>
+                <option value="لیسانس">لیسانس</option>
+                <option value="فوق لیسانس و بالاتر">فوق لیسانس و بالاتر</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="job">شغل</label>
+              <input type="text" id="job" name="job" placeholder="شغل بیمار" />
+            </div>
+
+            <div class="form-group">
+              <label for="history-source">منبع شرح حال</label>
+              <input
+                type="text"
+                id="history-source"
+                name="history-source"
+                placeholder="مثال: خود بیمار، همراه"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="reliability">میزان قابل اعتماد بودن</label>
+              <select id="reliability" name="reliability">
+                <option value="">انتخاب کنید</option>
+                <option value="کاملاً قابل اعتماد">کاملاً قابل اعتماد</option>
+                <option value="نسبتاً قابل اعتماد">نسبتاً قابل اعتماد</option>
+                <option value="غیر قابل اعتماد">غیر قابل اعتماد</option>
+              </select>
+            </div>
+          </div>
+        </section>
+        <section id="main-complaint">
+          <h2>شکایت اصلی</h2>
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="chief-complaint">شکایت اصلی (C.C)</label>
+              <input
+                type="text"
+                id="chief-complaint"
+                name="chief-complaint"
+                placeholder="مثال: درد قفسه سینه"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="onset">از کی شروع شد؟</label>
+              <input
+                type="text"
+                id="onset"
+                name="onset"
+                placeholder="مثال: ۳ روز پیش"
+              />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="pi">شرح حال بیماری (P.I)</label>
+            <textarea
+              id="pi"
+              name="pi"
+              rows="4"
+              placeholder="توضیحات کامل شرح حال..."
+            ></textarea>
+          </div>
+
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="pain-quality">کیفیت درد</label>
+              <select id="pain-quality" name="pain-quality">
+                <option value="">انتخاب کنید</option>
+                <option value="فشارنده">فشارنده</option>
+                <option value="خنجری">خنجری</option>
+                <option value="سوزشی">سوزشی</option>
+                <option value="تیرکشنده">تیرکشنده</option>
+                <option value="مبهم">مبهم</option>
+                <option value="مداوم">مداوم</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="pain-severity">شدت درد (1 تا 10)</label>
+              <input
+                type="range"
+                id="pain-severity"
+                name="pain-severity"
+                min="1"
+                max="10"
+                value="5"
+              />
+              <span id="severity-value">5</span>
+            </div>
+          </div>
+        </section>
+        <section id="associated-symptoms">
+          <h2>علائم همراه</h2>
+          <div class="checkbox-grid">
+            <div class="checkbox-group">
+              <input type="checkbox" id="nausea" name="symptoms" value="تهوع" />
+              <label for="nausea">تهوع</label>
+            </div>
+
+            <div class="checkbox-group">
+              <input
+                type="checkbox"
+                id="vomiting"
+                name="symptoms"
+                value="استفراغ"
+              />
+              <label for="vomiting">استفراغ</label>
+            </div>
+
+            <div class="checkbox-group">
+              <input
+                type="checkbox"
+                id="headache"
+                name="symptoms"
+                value="سردرد"
+              />
+              <label for="headache">سردرد</label>
+            </div>
+
+            <div class="checkbox-group">
+              <input
+                type="checkbox"
+                id="dizziness"
+                name="symptoms"
+                value="سرگیجه"
+              />
+              <label for="dizziness">سرگیجه</label>
+            </div>
+
+            <div class="checkbox-group">
+              <input
+                type="checkbox"
+                id="sweating"
+                name="symptoms"
+                value="تعریق"
+              />
+              <label for="sweating">تعریق</label>
+            </div>
+
+            <div class="checkbox-group">
+              <input
+                type="checkbox"
+                id="dyspnea"
+                name="symptoms"
+                value="تنگی نفس"
+              />
+              <label for="dyspnea">تنگی نفس</label>
+            </div>
+
+            <div class="checkbox-group">
+              <input
+                type="checkbox"
+                id="incontinence"
+                name="symptoms"
+                value="بی اختیاری"
+              />
+              <label for="incontinence">بی اختیاری</label>
+            </div>
+          </div>
+        </section>
+        <section id="pmh">
+          <h2>سابقه پزشکی (PMH)</h2>
+
+          <fieldset>
+            <legend>بیماری‌های دوران کودکی</legend>
+            <div class="checkbox-grid">
+              <div class="checkbox-group">
+                <input
+                  type="checkbox"
+                  id="measles"
+                  name="childhood-diseases"
+                  value="سرخک"
+                />
+                <label for="measles">سرخک (Measles)</label>
+              </div>
+
+              <div class="checkbox-group">
+                <input
+                  type="checkbox"
+                  id="chickenpox"
+                  name="childhood-diseases"
+                  value="آبله مرغان"
+                />
+                <label for="chickenpox">آبله مرغان (Chickenpox)</label>
+              </div>
+
+              <div class="checkbox-group">
+                <input
+                  type="checkbox"
+                  id="polio"
+                  name="childhood-diseases"
+                  value="فلج اطفال"
+                />
+                <label for="polio">فلج اطفال (Polio)</label>
+              </div>
+
+              <div class="checkbox-group">
+                <input
+                  type="checkbox"
+                  id="mumps"
+                  name="childhood-diseases"
+                  value="اوریون"
+                />
+                <label for="mumps">اوریون (Mumps)</label>
+              </div>
+
+              <div class="checkbox-group">
+                <input
+                  type="checkbox"
+                  id="pertussis"
+                  name="childhood-diseases"
+                  value="سیاه سرفه"
+                />
+                <label for="pertussis">سیاه سرفه (Pertussis)</label>
+              </div>
+
+              <div class="checkbox-group">
+                <input
+                  type="checkbox"
+                  id="tetanus"
+                  name="childhood-diseases"
+                  value="کزاز"
+                />
+                <label for="tetanus">کزاز (Tetanus)</label>
+              </div>
+
+              <div class="checkbox-group">
+                <input
+                  type="checkbox"
+                  id="smallpox"
+                  name="childhood-diseases"
+                  value="آبله"
+                />
+                <label for="smallpox">آبله (Smallpox)</label>
+              </div>
+
+              <div class="checkbox-group">
+                <input
+                  type="checkbox"
+                  id="rubella"
+                  name="childhood-diseases"
+                  value="سرخجه"
+                />
+                <label for="rubella">سرخجه (Rubella)</label>
+              </div>
+
+              <div class="checkbox-group">
+                <input
+                  type="checkbox"
+                  id="influenza"
+                  name="childhood-diseases"
+                  value="آنفولانزا تیفوس"
+                />
+                <label for="influenza"
+                  >آنفولانزا تیفوس (Influenza Typhus)</label
+                >
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>بیماری‌های دوران بزرگسالی</legend>
+            <div class="checkbox-grid">
+              <div class="checkbox-group">
+                <input
+                  type="checkbox"
+                  id="dm"
+                  name="adult-diseases"
+                  value="دیابت"
+                />
+                <label for="dm">دیابت (DM)</label>
+              </div>
+
+              <div class="checkbox-group">
+                <input
+                  type="checkbox"
+                  id="htn"
+                  name="adult-diseases"
+                  value="فشار خون"
+                />
+                <label for="htn">فشار خون (HTN)</label>
+              </div>
+
+              <div class="checkbox-group">
+                <input
+                  type="checkbox"
+                  id="asthma"
+                  name="adult-diseases"
+                  value="آسم"
+                />
+                <label for="asthma">آسم (Asthma)</label>
+              </div>
+
+              <div class="checkbox-group">
+                <input
+                  type="checkbox"
+                  id="tb"
+                  name="adult-diseases"
+                  value="سل"
+                />
+                <label for="tb">سل (TB)</label>
+              </div>
+
+              <div class="checkbox-group">
+                <input
+                  type="checkbox"
+                  id="anemia"
+                  name="adult-diseases"
+                  value="آنمی"
+                />
+                <label for="anemia">آنمی (Anemia)</label>
+              </div>
+
+              <div class="checkbox-group">
+                <input
+                  type="checkbox"
+                  id="ihd"
+                  name="adult-diseases"
+                  value="بیماری قلبی"
+                />
+                <label for="ihd">بیماری قلبی (IHD)</label>
+              </div>
+
+              <div class="checkbox-group">
+                <input
+                  type="checkbox"
+                  id="hlp"
+                  name="adult-diseases"
+                  value="چربی خون"
+                />
+                <label for="hlp">چربی خون (HLP)</label>
+              </div>
+
+              <div class="checkbox-group">
+                <input
+                  type="checkbox"
+                  id="arthritis"
+                  name="adult-diseases"
+                  value="آرتروز"
+                />
+                <label for="arthritis">آرتروز (Arthritis)</label>
+              </div>
+
+              <div class="checkbox-group">
+                <input
+                  type="checkbox"
+                  id="hospitalization"
+                  name="adult-diseases"
+                  value="سابقه بستری"
+                />
+                <label for="hospitalization"
+                  >سابقه بستری (Hospitalization hx)</label
+                >
+              </div>
+
+              <div class="checkbox-group">
+                <input
+                  type="checkbox"
+                  id="obstetric-gynecologic"
+                  name="adult-diseases"
+                  value="بیماری زنان و زایمان"
+                />
+                <label for="obstetric-gynecologic"
+                  >بیماری زنان و زایمان (Obstetric/Gynecologic Disease)</label
+                >
+              </div>
+
+              <div class="checkbox-group">
+                <input
+                  type="checkbox"
+                  id="psychiatric"
+                  name="adult-diseases"
+                  value="اختلالات روانی"
+                />
+                <label for="psychiatric"
+                  >اختلالات روانی (Psychiatric Disease)</label
+                >
+              </div>
+
+              <div class="checkbox-group">
+                <input
+                  type="checkbox"
+                  id="accidents"
+                  name="adult-diseases"
+                  value="سابقه حوادث"
+                />
+                <label for="accidents">سابقه حوادث (Accidents hx)</label>
+              </div>
+
+              <div class="checkbox-group">
+                <input
+                  type="checkbox"
+                  id="blood-transfusion"
+                  name="adult-diseases"
+                  value="سابقه تزریق خون"
+                />
+                <label for="blood-transfusion"
+                  >سابقه تزریق خون (Blood Transfusion hx)</label
+                >
+              </div>
+
+              <div class="checkbox-group">
+                <input
+                  type="checkbox"
+                  id="thyroid"
+                  name="adult-diseases"
+                  value="اختلالات تیروئید"
+                />
+                <label for="thyroid">اختلالات تیروئید (Thyroid Disease)</label>
+              </div>
+
+              <div class="checkbox-group">
+                <input
+                  type="checkbox"
+                  id="renal"
+                  name="adult-diseases"
+                  value="اختلالات کلیه"
+                />
+                <label for="renal">اختلالات کلیه (Renal Disease)</label>
+              </div>
+            </div>
+          </fieldset>
+        </section>
+        <section id="psh">
+          <h2>Past Surgical History (PSH)</h2>
+          <div class="form-group">
+            <label for="surgical-history">سابقه جراحی</label>
+            <textarea
+              id="surgical-history"
+              name="surgical-history"
+              rows="3"
+              placeholder="نوع عمل، تاریخ، بیمارستان..."
+            ></textarea>
+          </div>
+        </section>
+        <section id="fh">
+          <h2>Family History (FH)</h2>
+          <div class="checkbox-grid">
+            <div class="checkbox-group">
+              <input
+                type="checkbox"
+                id="fh-htn"
+                name="family-history"
+                value="HTN"
+              />
+              <label for="fh-htn">HTN</label>
+            </div>
+
+            <div class="checkbox-group">
+              <input
+                type="checkbox"
+                id="fh-dm"
+                name="family-history"
+                value="DM"
+              />
+              <label for="fh-dm">DM</label>
+            </div>
+
+            <div class="checkbox-group">
+              <input
+                type="checkbox"
+                id="fh-ihd"
+                name="family-history"
+                value="IHD"
+              />
+              <label for="fh-ihd">IHD</label>
+            </div>
+
+            <div class="checkbox-group">
+              <input
+                type="checkbox"
+                id="fh-tb"
+                name="family-history"
+                value="Tuberculosis"
+              />
+              <label for="fh-tb">Tuberculosis</label>
+            </div>
+
+            <div class="checkbox-group">
+              <input
+                type="checkbox"
+                id="fh-asthma"
+                name="family-history"
+                value="Asthma"
+              />
+              <label for="fh-asthma">Asthma</label>
+            </div>
+
+            <div class="checkbox-group">
+              <input
+                type="checkbox"
+                id="fh-mental"
+                name="family-history"
+                value="Mental illness"
+              />
+              <label for="fh-mental">Mental illness</label>
+            </div>
+            <div class="checkbox-group">
+              <input
+                type="checkbox"
+                id="fh-cad"
+                name="family-history"
+                value="CAD"
+              />
+              <label for="fh-cad">CAD</label>
+            </div>
+            <div class="checkbox-group">
+              <input
+                type="checkbox"
+                id="fh-hlp"
+                name="family-history"
+                value="HLP"
+              />
+              <label for="fh-hlp">HLP</label>
+            </div>
+            <div class="checkbox-group">
+              <input
+                type="checkbox"
+                id="fh-cva"
+                name="family-history"
+                value="CVA"
+              />
+              <label for="fh-cva">CVA</label>
+            </div>
+            <div class="checkbox-group">
+              <input
+                type="checkbox"
+                id="fh-thyroid"
+                name="family-history"
+                value="Thyroid disease"
+              />
+              <label for="fh-thyroid">Thyroid disease</label>
+            </div>
+            <div class="checkbox-group">
+              <input
+                type="checkbox"
+                id="fh-renal"
+                name="family-history"
+                value="Renal disease"
+              />
+              <label for="fh-renal">Renal disease</label>
+            </div>
+            <div class="checkbox-group">
+              <input
+                type="checkbox"
+                id="fh-arthritis"
+                name="family-history"
+                value="Arthritis"
+              />
+              <label for="fh-arthritis">Arthritis</label>
+            </div>
+            <div class="checkbox-group">
+              <input
+                type="checkbox"
+                id="fh-lung"
+                name="family-history"
+                value="Lung disease"
+              />
+              <label for="fh-lung">Lung disease</label>
+            </div>
+            <div class="checkbox-group">
+              <input
+                type="checkbox"
+                id="fh-seizure"
+                name="family-history"
+                value="Seizure"
+              />
+              <label for="fh-seizure">Seizure</label>
+            </div>
+            <div class="checkbox-group">
+              <input
+                type="checkbox"
+                id="fh-suicide"
+                name="family-history"
+                value="Suicide"
+              />
+              <label for="fh-suicide">Suicide</label>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="fh-notes">توضیحات</label>
+            <textarea id="fh-notes" name="fh-notes" rows="2"></textarea>
+          </div>
+        </section>
+        <section id="dh">
+          <h2>Drug History (DH)</h2>
+          <div class="form-group">
+            <label for="drug-history">سابقه دارویی</label>
+            <textarea
+              id="drug-history"
+              name="drug-history"
+              rows="3"
+              placeholder="نام دارو, دوز, تاریخ..."
+            ></textarea>
+          </div>
+        </section>
+        <section id="hh">
+          <h2>Hereditary History (HH)</h2>
+          <div class="form-group">
+            <label for="hereditary-history">سابقه وراثتی</label>
+            <textarea
+              id="hereditary-history"
+              name="hereditary-history"
+              rows="3"
+              placeholder="نوع بیماری, تاریخ, ..."
+            ></textarea>
+          </div>
+        </section>
+        <section id="ah">
+          <h2>Allergy History (AH)</h2>
+          <div class="form-group">
+            <label for="allergy-history">سابقه آلرژی</label>
+            <textarea
+              id="allergy-history"
+              name="allergy-history"
+              rows="3"
+              placeholder="نوع آلرژی، واکنش، تاریخ..."
+            ></textarea>
+          </div>
+        </section>
+        <section id="ros">
+    <details>
+        <summary>Review of Systems (ROS)</summary>
+        <div class="ros-content">
+
+            <fieldset>
+                <legend>General</legend>
+                <div class="checkbox-grid">
+                    <div class="checkbox-group"><input type="checkbox" id="ros-general-weakness" name="ros-general" value="Weakness"><label for="ros-general-weakness">Weakness</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-general-fatigue" name="ros-general" value="Fatigue"><label for="ros-general-fatigue">Fatigue</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-general-fever" name="ros-general" value="Fever"><label for="ros-general-fever">Fever</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-general-chills" name="ros-general" value="Chills"><label for="ros-general-chills">Chills</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-general-nightsweats" name="ros-general" value="Night sweats"><label for="ros-general-nightsweats">Night sweats</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-general-anorexia" name="ros-general" value="Anorexia"><label for="ros-general-anorexia">Anorexia</label></div>
+                </div>
+                <div class="form-group-inline">
+                    <label for="ros-general-weightchange">Recent weight change</label>
+                    <input type="text" id="ros-general-weightchange" name="ros-general-weightchange">
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>Skin / Hair / Nails</legend>
+                <div class="checkbox-grid">
+                    <div class="checkbox-group"><input type="checkbox" id="ros-skin-wound" name="ros-skin" value="Wound"><label for="ros-skin-wound">Wound</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-skin-itch" name="ros-skin" value="Itch"><label for="ros-skin-itch">Itch</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-skin-rash" name="ros-skin" value="Rash"><label for="ros-skin-rash">Rash</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-skin-seniles" name="ros-skin" value="Senile spots"><label for="ros-skin-seniles">Senile spots</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-skin-scar" name="ros-skin" value="Surgical scar"><label for="ros-skin-scar">Surgical scar</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-skin-dryness" name="ros-skin" value="Dryness"><label for="ros-skin-dryness">Dryness</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-skin-pale" name="ros-skin" value="Pale"><label for="ros-skin-pale">Pale</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-skin-hairloss" name="ros-skin" value="Hair loss"><label for="ros-skin-hairloss">Hair loss</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-skin-nailchange" name="ros-skin" value="Nail shape/color change"><label for="ros-skin-nailchange">Nail shape/color change</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-skin-nailloss" name="ros-skin" value="Nail loss"><label for="ros-skin-nailloss">Nail loss</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-skin-bruise" name="ros-skin" value="Bruise"><label for="ros-skin-bruise">Bruise</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-skin-lump" name="ros-skin" value="Lump"><label for="ros-skin-lump">Lump</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-skin-turgor" name="ros-skin" value="Skin turgor change"><label for="ros-skin-turgor">Skin turgor change</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-skin-petechiae" name="ros-skin" value="Petechiae"><label for="ros-skin-petechiae">Petechiae</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-skin-purpura" name="ros-skin" value="Purpura"><label for="ros-skin-purpura">Purpura</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-skin-ecchymosis" name="ros-skin" value="Ecchymosis"><label for="ros-skin-ecchymosis">Ecchymosis</label></div>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>Head</legend>
+                <div class="checkbox-grid">
+                    <div class="checkbox-group"><input type="checkbox" id="ros-head-headache" name="ros-head" value="Headache"><label for="ros-head-headache">Headache</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-head-trauma" name="ros-head" value="Head trauma"><label for="ros-head-trauma">Head trauma</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-head-dizziness" name="ros-head" value="Dizziness"><label for="ros-head-dizziness">Dizziness</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-head-lightheaded" name="ros-head" value="Lightheadedness"><label for="ros-head-lightheaded">Lightheadedness</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-head-heaviness" name="ros-head" value="Head heaviness"><label for="ros-head-heaviness">Head heaviness</label></div>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>Eye</legend>
+                <div class="checkbox-grid">
+                    <div class="checkbox-group"><input type="checkbox" id="ros-eye-cataract" name="ros-eye" value="Cataract surgery"><label for="ros-eye-cataract">Cataract surgery</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-eye-blurred" name="ros-eye" value="Blurred vision"><label for="ros-eye-blurred">Blurred vision</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-eye-glasses" name="ros-eye" value="Glasses"><label for="ros-eye-glasses">Glasses</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-eye-redness" name="ros-eye" value="Redness"><label for="ros-eye-redness">Redness</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-eye-tearing" name="ros-eye" value="Tearing"><label for="ros-eye-tearing">Tearing</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-eye-itch" name="ros-eye" value="Itch"><label for="ros-eye-itch">Itch</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-eye-diplopia" name="ros-eye" value="Diplopia"><label for="ros-eye-diplopia">Diplopia</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-eye-pain" name="ros-eye" value="Pain"><label for="ros-eye-pain">Pain</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-eye-fb" name="ros-eye" value="Foreign body sensation"><label for="ros-eye-fb">Foreign body sensation</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-eye-trauma" name="ros-eye" value="Trauma"><label for="ros-eye-trauma">Trauma</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-eye-glaucoma" name="ros-eye" value="Glaucoma"><label for="ros-eye-glaucoma">Glaucoma</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-eye-fieldloss" name="ros-eye" value="Visual field loss"><label for="ros-eye-fieldloss">Visual field loss</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-eye-hyperopia" name="ros-eye" value="Farsighted"><label for="ros-eye-hyperopia">Farsighted</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-eye-myopia" name="ros-eye" value="Nearsighted"><label for="ros-eye-myopia">Nearsighted</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-eye-astigmatism" name="ros-eye" value="Astigmatism"><label for="ros-eye-astigmatism">Astigmatism</label></div>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>Ear</legend>
+                <div class="checkbox-grid">
+                    <div class="checkbox-group"><input type="checkbox" id="ros-ear-loss" name="ros-ear" value="Hearing loss"><label for="ros-ear-loss">Hearing loss</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-ear-tinnitus" name="ros-ear" value="Tinnitus"><label for="ros-ear-tinnitus">Tinnitus</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-ear-aid" name="ros-ear" value="Hearing aid"><label for="ros-ear-aid">Hearing aid</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-ear-discharge" name="ros-ear" value="Discharge (pus/blood)"><label for="ros-ear-discharge">Discharge (pus/blood)</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-ear-earache" name="ros-ear" value="Earache"><label for="ros-ear-earache">Earache</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-ear-infection" name="ros-ear" value="Infection"><label for="ros-ear-infection">Infection</label></div>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>Nose & Sinuses</legend>
+                <div class="checkbox-grid">
+                    <div class="checkbox-group"><input type="checkbox" id="ros-nose-rhinorrhea" name="ros-nose" value="Rhinorrhea"><label for="ros-nose-rhinorrhea">Rhinorrhea</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-nose-congestion" name="ros-nose" value="Congestion"><label for="ros-nose-congestion">Congestion</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-nose-purulent" name="ros-nose" value="Purulent discharge"><label for="ros-nose-purulent">Purulent discharge</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-nose-epistaxis" name="ros-nose" value="Epistaxis"><label for="ros-nose-epistaxis">Epistaxis</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-nose-deviation" name="ros-nose" value="Septal deviation"><label for="ros-nose-deviation">Septal deviation</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-nose-dryness" name="ros-nose" value="Dryness"><label for="ros-nose-dryness">Dryness</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-nose-smell" name="ros-nose" value="Smell disturbance"><label for="ros-nose-smell">Smell disturbance</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-nose-localheadache" name="ros-nose" value="Localized headache"><label for="ros-nose-localheadache">Localized headache</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-nose-itch" name="ros-nose" value="Itch"><label for="ros-nose-itch">Itch</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-nose-sinuspain" name="ros-nose" value="Sinus pain/tenderness"><label for="ros-nose-sinuspain">Sinus pain/tenderness</label></div>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>Mouth & Throat</legend>
+                <div class="checkbox-grid">
+                    <div class="checkbox-group"><input type="checkbox" id="ros-mouth-sorethroat" name="ros-mouth" value="Sore throat"><label for="ros-mouth-sorethroat">Sore throat</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-mouth-gumbleed" name="ros-mouth" value="Gum bleeding"><label for="ros-mouth-gumbleed">Gum bleeding</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-mouth-tongue" name="ros-mouth" value="Tongue burn/pain/sore"><label for="ros-mouth-tongue">Tongue burn/pain/sore</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-mouth-drymouth" name="ros-mouth" value="Dry mouth"><label for="ros-mouth-drymouth">Dry mouth</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-mouth-hoarseness" name="ros-mouth" value="Hoarseness"><label for="ros-mouth-hoarseness">Hoarseness</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-mouth-dentures" name="ros-mouth" value="Dentures"><label for="ros-mouth-dentures">Dentures</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-mouth-caries" name="ros-mouth" value="Dental caries"><label for="ros-mouth-caries">Dental caries</label></div>
+                </div>
+                <div class="form-group-inline">
+                    <label for="ros-mouth-lastdental">Last dental exam</label>
+                    <input type="text" id="ros-mouth-lastdental" name="ros-mouth-lastdental">
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>Neck</legend>
+                <div class="checkbox-grid">
+                    <div class="checkbox-group"><input type="checkbox" id="ros-neck-swelling" name="ros-neck" value="Swelling"><label for="ros-neck-swelling">Swelling</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-neck-glands" name="ros-neck" value="Swollen glands"><label for="ros-neck-glands">Swollen glands</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-neck-pain" name="ros-neck" value="Neck pain"><label for="ros-neck-pain">Neck pain</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-neck-stiffness" name="ros-neck" value="Stiffness"><label for="ros-neck-stiffness">Stiffness</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-neck-morningstiff" name="ros-neck" value="Morning stiffness"><label for="ros-neck-morningstiff">Morning stiffness</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-neck-goiter" name="ros-neck" value="Goiter"><label for="ros-neck-goiter">Goiter</label></div>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>Breasts</legend>
+                <div class="checkbox-grid">
+                    <div class="checkbox-group"><input type="checkbox" id="ros-breast-retraction" name="ros-breast" value="Retraction"><label for="ros-breast-retraction">Retraction</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-breast-mass" name="ros-breast" value="Mass"><label for="ros-breast-mass">Mass</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-breast-pain" name="ros-breast" value="Pain"><label for="ros-breast-pain">Pain</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-breast-redness" name="ros-breast" value="Redness"><label for="ros-breast-redness">Redness</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-breast-prominence" name="ros-breast" value="Prominence"><label for="ros-breast-prominence">Prominence</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-breast-discharge" name="ros-breast" value="Discharge"><label for="ros-breast-discharge">Discharge</label></div>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>Respiratory</legend>
+                <div class="checkbox-grid">
+                    <div class="checkbox-group"><input type="checkbox" id="ros-resp-orthopnea" name="ros-resp" value="Orthopnea"><label for="ros-resp-orthopnea">Orthopnea</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-resp-cough" name="ros-resp" value="Cough"><label for="ros-resp-cough">Cough</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-resp-sputum" name="ros-resp" value="Sputum"><label for="ros-resp-sputum">Sputum</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-resp-bronchitis" name="ros-resp" value="Bronchitis"><label for="ros-resp-bronchitis">Bronchitis</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-resp-hemoptysis" name="ros-resp" value="Hemoptysis"><label for="ros-resp-hemoptysis">Hemoptysis</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-resp-pnd" name="ros-resp" value="PND"><label for="ros-resp-pnd">PND</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-resp-tb" name="ros-resp" value="TB"><label for="ros-resp-tb">TB</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-resp-asthma" name="ros-resp" value="Asthma"><label for="ros-resp-asthma">Asthma</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-resp-dyspnea" name="ros-resp" value="Dyspnea"><label for="ros-resp-dyspnea">Dyspnea</label></div>
+                </div>
+                <div class="form-group-inline">
+                    <label for="ros-resp-lastxray">Last chest X-ray date</label>
+                    <input type="text" id="ros-resp-lastxray" name="ros-resp-lastxray">
+                </div>
+                <div class="form-group-inline">
+                    <label for="ros-resp-sputumdetail">Sputum color/odor/amount</label>
+                    <input type="text" id="ros-resp-sputumdetail" name="ros-resp-sputumdetail">
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>Heart</legend>
+                <div class="checkbox-grid">
+                    <div class="checkbox-group"><input type="checkbox" id="ros-heart-chestpain" name="ros-heart" value="Intermittent chest pain"><label for="ros-heart-chestpain">Intermittent chest pain</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-heart-palpitation" name="ros-heart" value="Palpitation"><label for="ros-heart-palpitation">Palpitation</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-heart-radiating" name="ros-heart" value="Radiating chest pain"><label for="ros-heart-radiating">Radiating chest pain</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-heart-htn" name="ros-heart" value="HTN"><label for="ros-heart-htn">HTN</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-heart-edema" name="ros-heart" value="Edema"><label for="ros-heart-edema">Edema</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-heart-rheumatic" name="ros-heart" value="Rheumatic fever"><label for="ros-heart-rheumatic">Rheumatic fever</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-heart-pericarditis" name="ros-heart" value="Pericarditis"><label for="ros-heart-pericarditis">Pericarditis</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-heart-exertdyspnea" name="ros-heart" value="Exertional dyspnea"><label for="ros-heart-exertdyspnea">Exertional dyspnea</label></div>
+                </div>
+                <div class="form-group-inline">
+                    <label for="ros-heart-lastecg">Last ECG date</label>
+                    <input type="text" id="ros-heart-lastecg" name="ros-heart-lastecg">
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>GI</legend>
+                <div class="checkbox-grid">
+                    <div class="checkbox-group"><input type="checkbox" id="ros-gi-dysphagia" name="ros-gi" value="Dysphagia"><label for="ros-gi-dysphagia">Dysphagia</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-gi-odynophagia" name="ros-gi" value="Odynophagia"><label for="ros-gi-odynophagia">Odynophagia</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-gi-hiccups" name="ros-gi" value="Hiccups"><label for="ros-gi-hiccups">Hiccups</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-gi-abdpain" name="ros-gi" value="Abdominal pain"><label for="ros-gi-abdpain">Abdominal pain</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-gi-regurgitation" name="ros-gi" value="Regurgitation"><label for="ros-gi-regurgitation">Regurgitation</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-gi-nausea" name="ros-gi" value="Nausea"><label for="ros-gi-nausea">Nausea</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-gi-vomiting" name="ros-gi" value="Vomiting"><label for="ros-gi-vomiting">Vomiting</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-gi-hematemesis" name="ros-gi" value="Hematemesis"><label for="ros-gi-hematemesis">Hematemesis</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-gi-heartburn" name="ros-gi" value="Heartburn"><label for="ros-gi-heartburn">Heartburn</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-gi-bloating" name="ros-gi" value="Bloating"><label for="ros-gi-bloating">Bloating</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-gi-hernia" name="ros-gi" value="Hernia"><label for="ros-gi-hernia">Hernia</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-gi-anorexia" name="ros-gi" value="Decreased appetite"><label for="ros-gi-anorexia">Decreased appetite</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-gi-jaundice" name="ros-gi" value="Jaundice"><label for="ros-gi-jaundice">Jaundice</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-gi-gallstone" name="ros-gi" value="Gallstone hx"><label for="ros-gi-gallstone">Gallstone hx</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-gi-hepatitis" name="ros-gi" value="Hepatitis"><label for="ros-gi-hepatitis">Hepatitis</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-gi-liverproblems" name="ros-gi" value="Liver problems"><label for="ros-gi-liverproblems">Liver problems</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-gi-melena" name="ros-gi" value="Melena"><label for="ros-gi-melena">Melena</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-gi-hematochezia" name="ros-gi" value="Hematochezia"><label for="ros-gi-hematochezia">Hematochezia</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-gi-constipation" name="ros-gi" value="Constipation"><label for="ros-gi-constipation">Constipation</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-gi-diarrhea" name="ros-gi" value="Diarrhea"><label for="ros-gi-diarrhea">Diarrhea</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-gi-hemorrhoid" name="ros-gi" value="Hemorrhoid"><label for="ros-gi-hemorrhoid">Hemorrhoid</label></div>
+                </div>
+                <div class="form-group-inline">
+                    <label for="ros-gi-bowelhabit">Bowel frequency / odor / volume / color</label>
+                    <input type="text" id="ros-gi-bowelhabit" name="ros-gi-bowelhabit">
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>Urinary Tract</legend>
+                <div class="checkbox-grid">
+                    <div class="checkbox-group"><input type="checkbox" id="ros-uri-polyuria" name="ros-uri" value="Polyuria"><label for="ros-uri-polyuria">Polyuria</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-uri-nocturia" name="ros-uri" value="Nocturia"><label for="ros-uri-nocturia">Nocturia</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-uri-incontinence" name="ros-uri" value="Incontinence"><label for="ros-uri-incontinence">Incontinence</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-uri-dribbling" name="ros-uri" value="Terminal dribbling"><label for="ros-uri-dribbling">Terminal dribbling</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-uri-hematuria" name="ros-uri" value="Hematuria"><label for="ros-uri-hematuria">Hematuria</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-uri-dysuria" name="ros-uri" value="Dysuria"><label for="ros-uri-dysuria">Dysuria</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-uri-hesitancy" name="ros-uri" value="Hesitancy"><label for="ros-uri-hesitancy">Hesitancy</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-uri-stones" name="ros-uri" value="Kidney stones"><label for="ros-uri-stones">Kidney stones</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-uri-weakstream" name="ros-uri" value="Weak urine stream"><label for="ros-uri-weakstream">Weak urine stream</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-uri-suprapubic" name="ros-uri" value="Suprapubic pain"><label for="ros-uri-suprapubic">Suprapubic pain</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-uri-colorchange" name="ros-uri" value="Urine color change"><label for="ros-uri-colorchange">Urine color change</label></div>
+                </div>
+                <div class="form-group-inline">
+                    <label for="ros-uri-frequency">Urinary frequency per day/night</label>
+                    <input type="text" id="ros-uri-frequency" name="ros-uri-frequency">
+                </div>
+            </fieldset>
+
+            <fieldset id="section-male-ros">
+                <legend>Male Genitalia</legend>
+                <div class="checkbox-grid">
+                    <div class="checkbox-group"><input type="checkbox" id="ros-male-hernia" name="ros-male" value="Hernia"><label for="ros-male-hernia">Hernia</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-male-discharge" name="ros-male" value="Penile discharge"><label for="ros-male-discharge">Penile discharge</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-male-lesion" name="ros-male" value="Penile lesion"><label for="ros-male-lesion">Penile lesion</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-male-testmass" name="ros-male" value="Testicular mass"><label for="ros-male-testmass">Testicular mass</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-male-std" name="ros-male" value="STD"><label for="ros-male-std">STD</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-male-libido" name="ros-male" value="Reduced libido"><label for="ros-male-libido">Reduced libido</label></div>
+                </div>
+            </fieldset>
+
+            <fieldset id="section-female-ros">
+                <legend>Female Genitalia</legend>
+                <div class="checkbox-grid">
+                    <div class="checkbox-group"><input type="checkbox" id="ros-female-lesion" name="ros-female" value="Lesion/mass"><label for="ros-female-lesion">Lesion/mass</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-female-irregular" name="ros-female" value="Menstrual irregularity"><label for="ros-female-irregular">Menstrual irregularity</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-female-menorrhagia" name="ros-female" value="Menorrhagia"><label for="ros-female-menorrhagia">Menorrhagia</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-female-postcoital" name="ros-female" value="Bleeding after intercourse"><label for="ros-female-postcoital">Bleeding after intercourse</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-female-dyspareunia" name="ros-female" value="Pain during intercourse"><label for="ros-female-dyspareunia">Pain during intercourse</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-female-hiv" name="ros-female" value="HIV contact"><label for="ros-female-hiv">HIV contact</label></div>
+                </div>
+                <div class="form-grid-inline">
+                    <div class="form-group-inline"><label for="ros-female-menarche">Age of menarche</label><input type="number" id="ros-female-menarche" name="ros-female-menarche" min="0" max="100"></div>
+                    <div class="form-group-inline"><label for="ros-female-cycle">Cycle interval/duration</label><input type="text" id="ros-female-cycle" name="ros-female-cycle"></div>
+                    <div class="form-group-inline"><label for="ros-female-gravida">Gravida</label><input type="number" id="ros-female-gravida" name="ros-female-gravida" min="0" max="50"></div>
+                    <div class="form-group-inline"><label for="ros-female-para">Para / type of delivery</label><input type="text" id="ros-female-para" name="ros-female-para"></div>
+                    <div class="form-group-inline"><label for="ros-female-abortus">Abortus</label><input type="number" id="ros-female-abortus" name="ros-female-abortus" min="0" max="50"></div>
+                    <div class="form-group-inline"><label for="ros-female-menopauseage">Menopause age</label><input type="number" id="ros-female-menopauseage" name="ros-female-menopauseage" min="0" max="150"></div>
+                    <div class="form-group-inline"><label for="ros-female-contraception">Contraception method</label><input type="text" id="ros-female-contraception" name="ros-female-contraception"></div>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>Vascular</legend>
+                <div class="checkbox-grid">
+                    <div class="checkbox-group"><input type="checkbox" id="ros-vasc-claudication" name="ros-vasc" value="Intermittent claudication"><label for="ros-vasc-claudication">Intermittent claudication</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-vasc-cramps" name="ros-vasc" value="Leg cramps"><label for="ros-vasc-cramps">Leg cramps</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-vasc-varicose" name="ros-vasc" value="Varicose veins"><label for="ros-vasc-varicose">Varicose veins</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-vasc-raynaud" name="ros-vasc" value="Raynaud"><label for="ros-vasc-raynaud">Raynaud</label></div>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>Musculoskeletal</legend>
+                <div class="checkbox-grid">
+                    <div class="checkbox-group"><input type="checkbox" id="ros-musc-pain" name="ros-musc" value="Pain"><label for="ros-musc-pain">Pain</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-musc-swelling" name="ros-musc" value="Swelling"><label for="ros-musc-swelling">Swelling</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-musc-redness" name="ros-musc" value="Redness"><label for="ros-musc-redness">Redness</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-musc-stiffness" name="ros-musc" value="Stiffness"><label for="ros-musc-stiffness">Stiffness</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-musc-weakness" name="ros-musc" value="Weakness"><label for="ros-musc-weakness">Weakness</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-musc-rom" name="ros-musc" value="ROM limitation"><label for="ros-musc-rom">ROM limitation</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-musc-backpain" name="ros-musc" value="Back pain"><label for="ros-musc-backpain">Back pain</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-musc-gout" name="ros-musc" value="Gout"><label for="ros-musc-gout">Gout</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-musc-arthritis" name="ros-musc" value="Arthritis"><label for="ros-musc-arthritis">Arthritis</label></div>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>Nervous System</legend>
+                <div class="checkbox-grid">
+                    <div class="checkbox-group"><input type="checkbox" id="ros-neuro-sensloss" name="ros-neuro" value="Decreased sensation"><label for="ros-neuro-sensloss">Decreased sensation</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-neuro-paresthesia" name="ros-neuro" value="Paresthesia"><label for="ros-neuro-paresthesia">Paresthesia</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-neuro-syncope" name="ros-neuro" value="Syncope"><label for="ros-neuro-syncope">Syncope</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-neuro-tremor" name="ros-neuro" value="Tremor"><label for="ros-neuro-tremor">Tremor</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-neuro-fainting" name="ros-neuro" value="Fainting"><label for="ros-neuro-fainting">Fainting</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-neuro-speech" name="ros-neuro" value="Speech disorder"><label for="ros-neuro-speech">Speech disorder</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-neuro-concentration" name="ros-neuro" value="Concentration difficulty"><label for="ros-neuro-concentration">Concentration difficulty</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-neuro-drowsy" name="ros-neuro" value="Drowsiness"><label for="ros-neuro-drowsy">Drowsiness</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-neuro-headache" name="ros-neuro" value="Headache"><label for="ros-neuro-headache">Headache</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-neuro-blackout" name="ros-neuro" value="Visual blackout"><label for="ros-neuro-blackout">Visual blackout</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-neuro-dizziness" name="ros-neuro" value="Dizziness"><label for="ros-neuro-dizziness">Dizziness</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-neuro-seizure" name="ros-neuro" value="Seizure"><label for="ros-neuro-seizure">Seizure</label></div>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>Hematologic</legend>
+                <div class="checkbox-grid">
+                    <div class="checkbox-group"><input type="checkbox" id="ros-heme-anemia" name="ros-heme" value="Anemia"><label for="ros-heme-anemia">Anemia</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-heme-bruise" name="ros-heme" value="Easy bruising"><label for="ros-heme-bruise">Easy bruising</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-heme-bleeding" name="ros-heme" value="Bleeding"><label for="ros-heme-bleeding">Bleeding</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-heme-transfusion" name="ros-heme" value="Blood transfusion hx"><label for="ros-heme-transfusion">Blood transfusion hx</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-heme-transreaction" name="ros-heme" value="Transfusion reaction hx"><label for="ros-heme-transreaction">Transfusion reaction hx</label></div>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>Endocrine</legend>
+                <div class="checkbox-grid">
+                    <div class="checkbox-group"><input type="checkbox" id="ros-endo-thyroid" name="ros-endo" value="Thyroid problems"><label for="ros-endo-thyroid">Thyroid problems</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-endo-sweating" name="ros-endo" value="Excessive sweating"><label for="ros-endo-sweating">Excessive sweating</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-endo-polyuria" name="ros-endo" value="Polyuria"><label for="ros-endo-polyuria">Polyuria</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-endo-heatintolerance" name="ros-endo" value="Heat intolerance"><label for="ros-endo-heatintolerance">Heat intolerance</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-endo-coldintolerance" name="ros-endo" value="Cold intolerance"><label for="ros-endo-coldintolerance">Cold intolerance</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-endo-thirsthunger" name="ros-endo" value="Excessive thirst/hunger"><label for="ros-endo-thirsthunger">Excessive thirst/hunger</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-endo-shoesize" name="ros-endo" value="Shoe/glove size change"><label for="ros-endo-shoesize">Shoe/glove size change</label></div>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>Mental</legend>
+                <div class="checkbox-grid">
+                    <div class="checkbox-group"><input type="checkbox" id="ros-mental-forgetfulness" name="ros-mental" value="Forgetfulness/distraction"><label for="ros-mental-forgetfulness">Forgetfulness/distraction</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-mental-calculation" name="ros-mental" value="Calculation difficulty"><label for="ros-mental-calculation">Calculation difficulty</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-mental-slow" name="ros-mental" value="Slow thinking"><label for="ros-mental-slow">Slow thinking</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-mental-retardation" name="ros-mental" value="Mental retardation"><label for="ros-mental-retardation">Mental retardation</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-mental-academic" name="ros-mental" value="Academic decline"><label for="ros-mental-academic">Academic decline</label></div>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>Sleep & Wakefulness</legend>
+                <div class="checkbox-grid">
+                    <div class="checkbox-group"><input type="checkbox" id="ros-sleep-insomnia" name="ros-sleep" value="Insomnia"><label for="ros-sleep-insomnia">Insomnia</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-sleep-hyposomnia" name="ros-sleep" value="Reduced sleep"><label for="ros-sleep-hyposomnia">Reduced sleep</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-sleep-hypersomnia" name="ros-sleep" value="Excessive sleep"><label for="ros-sleep-hypersomnia">Excessive sleep</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-sleep-meds" name="ros-sleep" value="Sleep medication use"><label for="ros-sleep-meds">Sleep medication use</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-sleep-nightmares" name="ros-sleep" value="Nightmares"><label for="ros-sleep-nightmares">Nightmares</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-sleep-daytimesleepy" name="ros-sleep" value="Daytime sleepiness"><label for="ros-sleep-daytimesleepy">Daytime sleepiness</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-sleep-napping" name="ros-sleep" value="Excessive napping"><label for="ros-sleep-napping">Excessive napping</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-sleep-snoring" name="ros-sleep" value="Snoring"><label for="ros-sleep-snoring">Snoring</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-sleep-apnea" name="ros-sleep" value="Sleep apnea"><label for="ros-sleep-apnea">Sleep apnea</label></div>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>Confusion & Behavior</legend>
+                <div class="checkbox-grid">
+                    <div class="checkbox-group"><input type="checkbox" id="ros-confusion-falls" name="ros-confusion" value="Decreased consciousness/falls"><label for="ros-confusion-falls">Decreased consciousness/falls</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-confusion-restless" name="ros-confusion" value="Restlessness"><label for="ros-confusion-restless">Restlessness</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-confusion-nervous" name="ros-confusion" value="Nervousness"><label for="ros-confusion-nervous">Nervousness</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-confusion-irritable" name="ros-confusion" value="Irritability"><label for="ros-confusion-irritable">Irritability</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-confusion-depression" name="ros-confusion" value="Depression"><label for="ros-confusion-depression">Depression</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-confusion-euphoria" name="ros-confusion" value="Excessive euphoria"><label for="ros-confusion-euphoria">Excessive euphoria</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-confusion-cryinglaugh" name="ros-confusion" value="Inappropriate crying/laughing"><label for="ros-confusion-cryinglaugh">Inappropriate crying/laughing</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-confusion-hyperactive" name="ros-confusion" value="Hyperactivity"><label for="ros-confusion-hyperactive">Hyperactivity</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-confusion-apathy" name="ros-confusion" value="Apathy"><label for="ros-confusion-apathy">Apathy</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-confusion-distracted" name="ros-confusion" value="Poor concentration"><label for="ros-confusion-distracted">Poor concentration</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-confusion-flight" name="ros-confusion" value="Flight/escape tendency"><label for="ros-confusion-flight">Flight/escape tendency</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-confusion-fear" name="ros-confusion" value="Fear"><label for="ros-confusion-fear">Fear</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-confusion-anxiety" name="ros-confusion" value="Anxiety"><label for="ros-confusion-anxiety">Anxiety</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-confusion-ocd" name="ros-confusion" value="Obsession/worry"><label for="ros-confusion-ocd">Obsession/worry</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-confusion-hallucination" name="ros-confusion" value="Hallucination/delusion"><label for="ros-confusion-hallucination">Hallucination/delusion</label></div>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>Speech</legend>
+                <div class="checkbox-grid">
+                    <div class="checkbox-group"><input type="checkbox" id="ros-speech-stutter" name="ros-speech" value="Stuttering"><label for="ros-speech-stutter">Stuttering</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-speech-heavytongue" name="ros-speech" value="Heavy tongue"><label for="ros-speech-heavytongue">Heavy tongue</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-speech-wordfinding" name="ros-speech" value="Word-finding difficulty"><label for="ros-speech-wordfinding">Word-finding difficulty</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-speech-hoarse" name="ros-speech" value="Hoarseness"><label for="ros-speech-hoarse">Hoarseness</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-speech-comprehension" name="ros-speech" value="Comprehension difficulty"><label for="ros-speech-comprehension">Comprehension difficulty</label></div>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>Functional Skills</legend>
+                <div class="checkbox-grid">
+                    <div class="checkbox-group"><input type="checkbox" id="ros-skills-dressing" name="ros-skills" value="Dressing difficulty"><label for="ros-skills-dressing">Dressing difficulty</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-skills-gait" name="ros-skills" value="Gait aid use (walker/cane)"><label for="ros-skills-gait">Gait aid use (walker/cane)</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="ros-skills-decline" name="ros-skills" value="Decline in daily function"><label for="ros-skills-decline">Decline in daily function</label></div>
+                </div>
+            </fieldset>
+
+            </div>
+          </details>
+        </section>
+        <section id="pe">
+    <details>
+        <summary>Physical Exam (PE)</summary>
+        <div class="pe-content">
+
+            <fieldset>
+                <legend>General (عمومی)</legend>
+                <div class="checkbox-grid">
+                    <div class="checkbox-group"><input type="checkbox" id="pe-gen-illlooking" name="pe-general" value="ill-looking"><label for="pe-gen-illlooking">Ill-looking (بیمار به نظر رسیدن)</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="pe-gen-toxic" name="pe-general" value="toxic-looking"><label for="pe-gen-toxic">Toxic-looking (مسموم به نظر رسیدن)</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="pe-gen-growth" name="pe-general" value="normal physical growth"><label for="pe-gen-growth">Normal physical growth (رشد جسمی طبیعی)</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="pe-gen-sexmaturity" name="pe-general" value="normal sexual maturity"><label for="pe-gen-sexmaturity">Normal sexual maturity (تکامل جنسی طبیعی)</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="pe-gen-hygiene" name="pe-general" value="good hygiene"><label for="pe-gen-hygiene">Good personal hygiene (بهداشت فردی خوب)</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="pe-gen-motoractivity" name="pe-general" value="normal motor activity"><label for="pe-gen-motoractivity">Normal motor activity (فعالیت حرکتی طبیعی)</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="pe-gen-bodyodor" name="pe-general" value="body odor"><label for="pe-gen-bodyodor">Body odor (بوی بد بدن)</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="pe-gen-breathodor" name="pe-general" value="breath odor"><label for="pe-gen-breathodor">Breath odor (بوی بد تنفس)</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="pe-gen-cooperative" name="pe-general" value="cooperative"><label for="pe-gen-cooperative">Cooperative (همکاری خوب بیمار)</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="pe-gen-uncooperative" name="pe-general" value="uncooperative"><label for="pe-gen-uncooperative">Uncooperative (عدم همکاری بیمار)</label></div>
+                </div>
+                <div class="form-grid">
+                    <div class="form-group"><label for="pe-height">Height (قد)</label><input type="text" id="pe-height" name="pe-height"></div>
+                    <div class="form-group"><label for="pe-weight">Weight (وزن)</label><input type="text" id="pe-weight" name="pe-weight"></div>
+                    <div class="form-group"><label for="pe-bmi">BMI</label><input type="text" id="pe-bmi" name="pe-bmi"></div>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>Vital Signs (علائم حیاتی)</legend>
+                <div class="form-grid">
+                    <div class="form-group"><label for="pe-pulse">Pulse rate (تعداد نبض)</label><input type="text" id="pe-pulse" name="pe-pulse"></div>
+                    <div class="form-group"><label for="pe-bp">BP (فشار خون)</label><input type="text" id="pe-bp" name="pe-bp"></div>
+                    <div class="form-group"><label for="pe-rr">Respiratory rate (تعداد تنفس)</label><input type="text" id="pe-rr" name="pe-rr"></div>
+                    <div class="form-group"><label for="pe-temp">Temperature (درجه حرارت)</label><input type="text" id="pe-temp" name="pe-temp"></div>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>Skin / Hair / Nails (پوست/مو/ناخن)</legend>
+                <div class="form-group">
+                    <label for="pe-skin-lesion">Lesion site, distribution, type, color, size, tenderness (محل و توزیع و نوع و رنگ و اندازه و تندرنس ضایعه)</label>
+                    <input type="text" id="pe-skin-lesion" name="pe-skin-lesion">
+                </div>
+                <div class="form-group">
+                    <label for="pe-skin-hairdist">Scalp hair distribution (نحوه توزیع موی سر)</label>
+                    <input type="text" id="pe-skin-hairdist" name="pe-skin-hairdist">
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>Head (سر)</legend>
+                <div class="checkbox-grid">
+                    <div class="checkbox-group"><input type="checkbox" id="pe-head-deformity" name="pe-head" value="skeletal deformity"><label for="pe-head-deformity">Skeletal deformity (دفورمیتی استخوانی)</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="pe-head-fracture" name="pe-head" value="fracture/prominence sign"><label for="pe-head-fracture">Fracture or bony prominence sign (آثار شکستگی یا برآمدگی)</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="pe-head-temporalvein" name="pe-head" value="temporal vein prominence"><label for="pe-head-temporalvein">Temporal vein prominence (برجستگی عروق تمپورال)</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="pe-head-temporalatrophy" name="pe-head" value="temporal atrophy"><label for="pe-head-temporalatrophy">Temporal atrophy (آتروفی تمپورال)</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="pe-head-microcephaly" name="pe-head" value="microcephaly"><label for="pe-head-microcephaly">Microcephaly (میکروسفالی)</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="pe-head-macrocephaly" name="pe-head" value="macrocephaly"><label for="pe-head-macrocephaly">Macrocephaly (ماکروسفالی)</label></div>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>Meningeal Signs (علائم مننژ)</legend>
+                <div class="checkbox-grid">
+                    <div class="checkbox-group"><input type="checkbox" id="pe-mening-rigidity" name="pe-mening" value="neck rigidity"><label for="pe-mening-rigidity">Neck rigidity (ردور)</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="pe-mening-kernig" name="pe-mening" value="Kernig sign"><label for="pe-mening-kernig">Kernig sign (کرنیگ)</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="pe-mening-brudzinski" name="pe-mening" value="Brudzinski sign"><label for="pe-mening-brudzinski">Brudzinski sign (برودزینسکی)</label></div>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>Eye (چشم)</legend>
+                <div class="checkbox-grid">
+                    <div class="checkbox-group"><input type="checkbox" id="pe-eye-acuity" name="pe-eye" value="visual acuity checked"><label for="pe-eye-acuity">Visual acuity (تیزی دید)</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="pe-eye-fields" name="pe-eye" value="visual fields checked"><label for="pe-eye-fields">Visual fields (میدان بینایی)</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="pe-eye-position" name="pe-eye" value="eye position checked"><label for="pe-eye-position">Eye position (طرز قرارگیری چشم‌ها)</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="pe-eye-eyelids" name="pe-eye" value="eyelids checked"><label for="pe-eye-eyelids">Eyelids (پلک‌ها)</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="pe-eye-sclera" name="pe-eye" value="sclera checked"><label for="pe-eye-sclera">Sclera (رنگ صلبیه)</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="pe-eye-conjunctiva" name="pe-eye" value="conjunctiva checked"><label for="pe-eye-conjunctiva">Conjunctiva (ملتحمه)</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="pe-eye-cornea" name="pe-eye" value="cornea checked"><label for="pe-eye-cornea">Cornea (قرنیه)</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="pe-eye-lens" name="pe-eye" value="lens checked"><label for="pe-eye-lens">Lens (عدسی)</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="pe-eye-iris" name="pe-eye" value="iris checked"><label for="pe-eye-iris">Iris (عنبیه)</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="pe-eye-pupilreaction" name="pe-eye" value="pupil light reaction checked"><label for="pe-eye-pupilreaction">Pupil reaction to light (واکنش مردمک‌ها به نور)</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="pe-eye-eom" name="pe-eye" value="extraocular movements checked"><label for="pe-eye-eom">Extraocular movements (حرکات خارجی چشم)</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="pe-eye-redreflex" name="pe-eye" value="red reflex checked"><label for="pe-eye-redreflex">Red reflex (رفلکس قرمزی)</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="pe-eye-ophthalmoscopy" name="pe-eye" value="ophthalmoscopy done"><label for="pe-eye-ophthalmoscopy">Ophthalmoscopy (معاینه با افتالموسکوپ)</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="pe-eye-nystagmus" name="pe-eye" value="nystagmus"><label for="pe-eye-nystagmus">Nystagmus (نیستاگموس)</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="pe-eye-telangiectasia" name="pe-eye" value="scleral telangiectasia"><label for="pe-eye-telangiectasia">Scleral telangiectasia (تلانژکتازی اسکلرا)</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="pe-eye-ptosis" name="pe-eye" value="ptosis"><label for="pe-eye-ptosis">Ptosis (پتوز)</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="pe-eye-kfring" name="pe-eye" value="K.F Ring"><label for="pe-eye-kfring">K.F Ring</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="pe-eye-enophthalmos" name="pe-eye" value="enophthalmos"><label for="pe-eye-enophthalmos">Enophthalmos (انوفتالمی)</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="pe-eye-exophthalmos" name="pe-eye" value="exophthalmos"><label for="pe-eye-exophthalmos">Exophthalmos (اگزوفتالمی)</label></div>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>Ear (گوش)</legend>
+                <div class="checkbox-grid">
+                    <div class="checkbox-group"><input type="checkbox" id="pe-ear-external" name="pe-ear" value="external ear lesion/tophus"><label for="pe-ear-external">External ear lesion/tophus (زخم یا توفوس)</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="pe-ear-acuity" name="pe-ear" value="hearing acuity checked"><label for="pe-ear-acuity">Hearing acuity (تیزی شنوایی)</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="pe-ear-otoscopy" name="pe-ear" value="otoscopy done"><label for="pe-ear-otoscopy">Otoscopy exam (معاینه با اتوسکوپ)</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="pe-ear-tympanic" name="pe-ear" value="tympanic membrane observed"><label for="pe-ear-tympanic">Tympanic membrane (color, light reflex) (مشاهده پرده صماخ)</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="pe-ear-canal" name="pe-ear" value="ear canal inflammation/discharge"><label for="pe-ear-canal">Ear canal inflammation/discharge (التهاب یا چرک مجرای گوش)</label></div>
+                </div>
+                <div class="form-grid">
+                    <div class="form-group"><label for="pe-ear-weber">Weber test (وبر)</label><input type="text" id="pe-ear-weber" name="pe-ear-weber"></div>
+                    <div class="form-group"><label for="pe-ear-rinne">Rinne test (رینه)</label><input type="text" id="pe-ear-rinne" name="pe-ear-rinne"></div>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>Nose & Sinuses (بینی)</legend>
+                <div class="checkbox-grid">
+                    <div class="checkbox-group"><input type="checkbox" id="pe-nose-symmetry" name="pe-nose" value="nasal symmetry/no deviation"><label for="pe-nose-symmetry">Nasal symmetry, no deviation (قرینگی و عدم انحراف بینی)</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="pe-nose-rhinoscopy" name="pe-nose" value="rhinoscopy done"><label for="pe-nose-rhinoscopy">Rhinoscopy: mucosa, septum, turbinates (رینوسکوپی مخاط و سپتوم و شاخه‌های بینی)</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="pe-nose-polyp" name="pe-nose" value="polyp"><label for="pe-nose-polyp">Polyp (پولیپ)</label></div>
+                </div>
+                <div class="form-group">
+                    <label for="pe-nose-sinuspalpation">Sinus palpation (لمس سینوس‌ها)</label>
+                    <input type="text" id="pe-nose-sinuspalpation" name="pe-nose-sinuspalpation">
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>Mouth & Throat (دهان و حلق)</legend>
+                <div class="checkbox-grid">
+                    <div class="checkbox-group"><input type="checkbox" id="pe-mouth-uvula" name="pe-mouth" value="uvula deviation"><label for="pe-mouth-uvula">Uvula deviation (عدم قرینگی uvula)</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="pe-mouth-cleftpalate" name="pe-mouth" value="cleft palate"><label for="pe-mouth-cleftpalate">Cleft palate (شکاف کام)</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="pe-mouth-exudate" name="pe-mouth" value="pharyngeal exudate"><label for="pe-mouth-exudate">Pharyngeal exudate (اگزودای حلق)</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="pe-mouth-tonsil" name="pe-mouth" value="tonsillar swelling/ulcer"><label for="pe-mouth-tonsil">Tonsillar swelling/ulcer (تورم و زخم لوزه‌ها)</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="pe-mouth-nodule" name="pe-mouth" value="oral nodule"><label for="pe-mouth-nodule">Oral nodule (ندول در دهان)</label></div>
+                </div>
+                <div class="form-grid">
+                    <div class="form-group"><label for="pe-mouth-lips">Lips & oral mucosa (رنگ و زخم و شکاف و پوسته‌ریزی)</label><input type="text" id="pe-mouth-lips" name="pe-mouth-lips"></div>
+                    <div class="form-group"><label for="pe-mouth-gums">Gums & teeth (لثه و دندان‌ها)</label><input type="text" id="pe-mouth-gums" name="pe-mouth-gums"></div>
+                    <div class="form-group"><label for="pe-mouth-pharyngoscopy">Pharyngoscopy (فارنکوسکوپی)</label><input type="text" id="pe-mouth-pharyngoscopy" name="pe-mouth-pharyngoscopy"></div>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>Neck (گردن)</legend>
+                <div class="form-grid">
+                    <div class="form-group"><label for="pe-neck-nodes">Lymph nodes: swelling, tenderness, mobility, size (تورم و حساسیت و تحرک و اندازه گره‌های لنفی)</label><input type="text" id="pe-neck-nodes" name="pe-neck-nodes"></div>
+                    <div class="form-group"><label for="pe-neck-jvp">Neck mass or abnormal pulsation / JVP (توده یا ضربان غیرعادی در گردن)</label><input type="text" id="pe-neck-jvp" name="pe-neck-jvp"></div>
+                    <div class="form-group"><label for="pe-neck-trachea">Tracheal position (محل تراشه)</label><input type="text" id="pe-neck-trachea" name="pe-neck-trachea"></div>
+                    <div class="form-group"><label for="pe-neck-thyroid">Thyroid: location, size, tenderness (مکان و ابعاد و تندرنس غده تیروئید)</label><input type="text" id="pe-neck-thyroid" name="pe-neck-thyroid"></div>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>Back / Spine (پشت)</legend>
+                <div class="checkbox-grid">
+                    <div class="checkbox-group"><input type="checkbox" id="pe-back-kyphosis" name="pe-back" value="kyphosis"><label for="pe-back-kyphosis">Kyphosis (کیفوز)</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="pe-back-lordosis" name="pe-back" value="lordosis"><label for="pe-back-lordosis">Lordosis (لوردوز)</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="pe-back-scoliosis" name="pe-back" value="scoliosis"><label for="pe-back-scoliosis">Scoliosis (اسکولیوز)</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="pe-back-localtenderness" name="pe-back" value="local tenderness"><label for="pe-back-localtenderness">Local tenderness (تندرنس موضعی)</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="pe-back-scapularwinging" name="pe-back" value="scapular winging"><label for="pe-back-scapularwinging">Scapular winging</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="pe-back-cva" name="pe-back" value="CVA tenderness"><label for="pe-back-cva">CVA tenderness</label></div>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>Breast & Axilla (پستان و زیربغل)</legend>
+                <div class="checkbox-grid">
+                    <div class="checkbox-group"><input type="checkbox" id="pe-breast-mass" name="pe-breast" value="mass"><label for="pe-breast-mass">Mass (توده)</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="pe-breast-tenderness" name="pe-breast" value="tenderness"><label for="pe-breast-tenderness">Tenderness (تندرنس)</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="pe-breast-pain" name="pe-breast" value="pain"><label for="pe-breast-pain">Pain (درد)</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="pe-breast-asymmetry" name="pe-breast" value="asymmetry"><label for="pe-breast-asymmetry">Asymmetry (عدم تقارن)</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="pe-breast-discharge" name="pe-breast" value="discharge"><label for="pe-breast-discharge">Discharge (ترشح)</label></div>
+                </div>
+                <div class="form-group">
+                    <label for="pe-breast-nodes">Axillary lymph nodes: swelling, tenderness, mobility, size (تورم و تندرنس و تحرک و اندازه غدد لنفی)</label>
+                    <input type="text" id="pe-breast-nodes" name="pe-breast-nodes">
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>Musculoskeletal System (سیستم عضلانی-اسکلتی)</legend>
+                <div class="form-grid">
+                    <div class="form-group"><label for="pe-msk-joints">Joints, muscles, bones (مفاصل و عضلات و استخوان‌ها)</label><input type="text" id="pe-msk-joints" name="pe-msk-joints"></div>
+                    <div class="form-group"><label for="pe-msk-activerom">Active ROM of large joints (دامنه حرکات active مفاصل بزرگ)</label><input type="text" id="pe-msk-activerom" name="pe-msk-activerom"></div>
+                    <div class="form-group"><label for="pe-msk-passiverom">Passive ROM if pain on active motion (دامنه حرکات passive)</label><input type="text" id="pe-msk-passiverom" name="pe-msk-passiverom"></div>
+                    <div class="form-group"><label for="pe-msk-strength">Major muscle strength (قدرت عضلات اصلی)</label><input type="text" id="pe-msk-strength" name="pe-msk-strength"></div>
+                </div>
+                <div class="form-group">
+                    <label for="pe-msk-jointexam">TMJ, shoulder, elbow, wrist, spine, hip, knee, ankle exam (معاینه مفاصل TMJ و شانه و آرنج و مچ دست و ستون فقرات و هیپ و زانو و مچ پا)</label>
+                    <input type="text" id="pe-msk-jointexam" name="pe-msk-jointexam">
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>Respiratory System (سیستم تنفسی)</legend>
+                <div class="checkbox-grid">
+                    <div class="checkbox-group"><input type="checkbox" id="pe-resp-kyphosis" name="pe-resp" value="kyphosis"><label for="pe-resp-kyphosis">Kyphosis (کیفوز)</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="pe-resp-lordosis" name="pe-resp" value="lordosis"><label for="pe-resp-lordosis">Lordosis (لوردوز)</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="pe-resp-scoliosis" name="pe-resp" value="scoliosis"><label for="pe-resp-scoliosis">Scoliosis (اسکولیوز)</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="pe-resp-cyanosis" name="pe-resp" value="cyanosis"><label for="pe-resp-cyanosis">Cyanosis (سیانوز)</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="pe-resp-nailshape" name="pe-resp" value="abnormal nail shape"><label for="pe-resp-nailshape">Abnormal nail shape (شکل ناخن‌ها)</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="pe-resp-skinlesion" name="pe-resp" value="skin lesion (scar etc.)"><label for="pe-resp-skinlesion">Skin lesion (scar, etc.) (ضایعات پوستی)</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="pe-resp-accessorymuscle" name="pe-resp" value="use of accessory muscles"><label for="pe-resp-accessorymuscle">Use of accessory muscles (کمک گرفتن از عضلات کمکی تنفس)</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="pe-resp-retraction" name="pe-resp" value="intercostal/suprasternal retraction"><label for="pe-resp-retraction">Intercostal/suprasternal retraction (تورفتگی غیرطبیعی فضای بین دنده‌ای)</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="pe-resp-hyperresonance" name="pe-resp" value="hyperresonance on percussion"><label for="pe-resp-hyperresonance">Hyperresonance on percussion (هیپررزونانس دق)</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="pe-resp-mass" name="pe-resp" value="mass"><label for="pe-resp-mass">Mass (بررسی توده)</label></div>
+                </div>
+                <div class="form-grid">
+                    <div class="form-group"><label for="pe-resp-chestshape">Chest shape (شکل قفسه سینه)</label><input type="text" id="pe-resp-chestshape" name="pe-resp-chestshape"></div>
+                    <div class="form-group"><label for="pe-resp-tenderarea">Tender areas to palpation (نواحی حساس به لمس)</label><input type="text" id="pe-resp-tenderarea" name="pe-resp-tenderarea"></div>
+                    <div class="form-group"><label for="pe-resp-fremitus">Tactile fremitus</label><input type="text" id="pe-resp-fremitus" name="pe-resp-fremitus"></div>
+                    <div class="form-group"><label for="pe-resp-expansion">Chest expansion</label><input type="text" id="pe-resp-expansion" name="pe-resp-expansion"></div>
+                    <div class="form-group"><label for="pe-resp-egophony">Egophony (اگوفونی)</label><input type="text" id="pe-resp-egophony" name="pe-resp-egophony"></div>
+                    <div class="form-group"><label for="pe-resp-breathsounds">Breath sounds on auscultation (سمع صداهای تنفسی)</label><input type="text" id="pe-resp-breathsounds" name="pe-resp-breathsounds"></div>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>Heart (قلب)</legend>
+                <div class="checkbox-grid">
+                    <div class="checkbox-group"><input type="checkbox" id="pe-heart-heave" name="pe-heart" value="ventricular heave"><label for="pe-heart-heave">Ventricular heave</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="pe-heart-thrill" name="pe-heart" value="thrill"><label for="pe-heart-thrill">Thrill (تریل)</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="pe-heart-murmur" name="pe-heart" value="murmur"><label for="pe-heart-murmur">Murmur (سوفل)</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="pe-heart-friction" name="pe-heart" value="pericardial friction rub"><label for="pe-heart-friction">Pericardial friction rub (سایش پریکاردی)</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="pe-heart-hepatojugular" name="pe-heart" value="hepatojugular reflux"><label for="pe-heart-hepatojugular">Hepatojugular reflux (ریفلکس هپاتوژوگولار)</label></div>
+                </div>
+                <div class="form-grid">
+                    <div class="form-group"><label for="pe-heart-carotidpulse">Carotid pulse (ضربان کاروتید)</label><input type="text" id="pe-heart-carotidpulse" name="pe-heart-carotidpulse"></div>
+                    <div class="form-group"><label for="pe-heart-carotidauscult">Carotid auscultation (سمع کاروتید)</label><input type="text" id="pe-heart-carotidauscult" name="pe-heart-carotidauscult"></div>
+                    <div class="form-group"><label for="pe-heart-jvp">JVP observation/measurement (مشاهده و محاسبه JVP)</label><input type="text" id="pe-heart-jvp" name="pe-heart-jvp"></div>
+                    <div class="form-group"><label for="pe-heart-precordium">Precordium inspection/palpation (مشاهده و لمس ناحیه جلوی قلب)</label><input type="text" id="pe-heart-precordium" name="pe-heart-precordium"></div>
+                    <div class="form-group"><label for="pe-heart-pmi">PMI: location, diameter, amplitude (محل و قطر و دامنه PMI)</label><input type="text" id="pe-heart-pmi" name="pe-heart-pmi"></div>
+                    <div class="form-group"><label for="pe-heart-s1s2">S1 & S2 in 4 areas (سمع S1 و S2 در هر ۴ کانون)</label><input type="text" id="pe-heart-s1s2" name="pe-heart-s1s2"></div>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>Abdomen (شکم)</legend>
+                <div class="checkbox-grid">
+                    <div class="checkbox-group"><input type="checkbox" id="pe-abd-distendedveins" name="pe-abd" value="distended abdominal veins"><label for="pe-abd-distendedveins">Distended abdominal veins (وریدهای متسع)</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="pe-abd-bowelsounds" name="pe-abd" value="bowel sounds present"><label for="pe-abd-bowelsounds">Bowel sounds present (سمع صداهای روده)</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="pe-abd-venoushum" name="pe-abd" value="portal venous hum"><label for="pe-abd-venoushum">Portal venous hum (همهمه وریدی پورت)</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="pe-abd-frictionrub" name="pe-abd" value="friction rub over liver/spleen"><label for="pe-abd-frictionrub">Friction rub over liver/spleen</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="pe-abd-shiftingdullness" name="pe-abd" value="shifting dullness (ascites)"><label for="pe-abd-shiftingdullness">Shifting dullness (if ascites suspected) (تست shifting dullness)</label></div>
+                </div>
+                <div class="form-grid">
+                    <div class="form-group"><label for="pe-abd-navel">Umbilicus shape (شکل ناف)</label><input type="text" id="pe-abd-navel" name="pe-abd-navel"></div>
+                    <div class="form-group"><label for="pe-abd-skinlesion">Skin lesions (ضایعات جلدی)</label><input type="text" id="pe-abd-skinlesion" name="pe-abd-skinlesion"></div>
+                    <div class="form-group"><label for="pe-abd-shape">Abdomen shape & symmetry (شکل شکم و قرینگی شکم)</label><input type="text" id="pe-abd-shape" name="pe-abd-shape"></div>
+                    <div class="form-group"><label for="pe-abd-aortapulse">Aortic pulsation in epigastrium (ضربان آئورت در اپی‌گاستر)</label><input type="text" id="pe-abd-aortapulse" name="pe-abd-aortapulse"></div>
+                    <div class="form-group"><label for="pe-abd-percussion">Abdominal percussion (دق شکم)</label><input type="text" id="pe-abd-percussion" name="pe-abd-percussion"></div>
+                    <div class="form-group"><label for="pe-abd-palpation">Light & deep palpation (لمس سطحی و عمقی)</label><input type="text" id="pe-abd-palpation" name="pe-abd-palpation"></div>
+                    <div class="form-group"><label for="pe-abd-liver">Liver: percussion, palpation, span (دق و لمس و اسپن کبد)</label><input type="text" id="pe-abd-liver" name="pe-abd-liver"></div>
+                    <div class="form-group"><label for="pe-abd-spleen">Spleen: percussion, palpation (دق و لمس طحال)</label><input type="text" id="pe-abd-spleen" name="pe-abd-spleen"></div>
+                    <div class="form-group"><label for="pe-abd-kidney">Kidney exam & CVA tenderness (معاینه کلیه و بررسی تندرنس CVA)</label><input type="text" id="pe-abd-kidney" name="pe-abd-kidney"></div>
+                    <div class="form-group"><label for="pe-abd-bladder">Bladder percussion (دق مثانه)</label><input type="text" id="pe-abd-bladder" name="pe-abd-bladder"></div>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>Vascular System (سیستم عروقی)</legend>
+                <div class="checkbox-grid">
+                    <div class="checkbox-group"><input type="checkbox" id="pe-vasc-discoloration" name="pe-vasc" value="lower limb discoloration/edema/ulcer"><label for="pe-vasc-discoloration">Lower limb discoloration/edema/ulcer (تغییر رنگ و ادم و زخم اندام تحتانی)</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="pe-vasc-varicose" name="pe-vasc" value="varicose veins"><label for="pe-vasc-varicose">Varicose veins (وریدهای واریسی)</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="pe-vasc-clubbing" name="pe-vasc" value="finger clubbing"><label for="pe-vasc-clubbing">Finger clubbing (clubbing انگشتان)</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="pe-vasc-cyanosis" name="pe-vasc" value="cyanosis"><label for="pe-vasc-cyanosis">Cyanosis (سیانوز)</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="pe-vasc-asymmetry" name="pe-vasc" value="limb asymmetry"><label for="pe-vasc-asymmetry">Limb asymmetry (عدم قرینگی اندام‌ها)</label></div>
+                </div>
+                <div class="form-group">
+                    <label for="pe-vasc-pulses">Pulses: carotid/radial/femoral/popliteal/posterior tibial/dorsalis pedis (نبض‌ها)</label>
+                    <input type="text" id="pe-vasc-pulses" name="pe-vasc-pulses">
+                </div>
+            </fieldset>
+
+            <fieldset id="section-male-pe">
+                <legend>Male Genitalia (دستگاه تناسلی مردان)</legend>
+                <div class="form-grid">
+                    <div class="form-group"><label for="pe-male-sacral">Sacrococcygeal area (نواحی خاجی-دنباچه‌ای)</label><input type="text" id="pe-male-sacral" name="pe-male-sacral"></div>
+                    <div class="form-group"><label for="pe-male-perineal">Perineal inspection (مشاهده پرینه)</label><input type="text" id="pe-male-perineal" name="pe-male-perineal"></div>
+                    <div class="form-group"><label for="pe-male-prostate">Prostate & rectal palpation (لمس پروستات و رکتوم)</label><input type="text" id="pe-male-prostate" name="pe-male-prostate"></div>
+                    <div class="form-group"><label for="pe-male-scrotal">Scrotal exam (معاینه اسکروتوم)</label><input type="text" id="pe-male-scrotal" name="pe-male-scrotal"></div>
+                    <div class="form-group"><label for="pe-male-hernia">Hernia exam (معاینه وجود فتق)</label><input type="text" id="pe-male-hernia" name="pe-male-hernia"></div>
+                </div>
+            </fieldset>
+
+            <fieldset id="section-female-pe">
+                <legend>Female Genitalia (دستگاه تناسلی زنان)</legend>
+                <div class="form-grid">
+                    <div class="form-group"><label for="pe-female-external">External genital exam (معاینه قسمت خارجی)</label><input type="text" id="pe-female-external" name="pe-female-external"></div>
+                    <div class="form-group"><label for="pe-female-vaginalcervix">Vaginal & cervical exam (معاینه واژن و سرویکس)</label><input type="text" id="pe-female-vaginalcervix" name="pe-female-vaginalcervix"></div>
+                    <div class="form-group"><label for="pe-female-uterus">Uterus & adnexa palpation (لمس رحم و ادنکس‌ها)</label><input type="text" id="pe-female-uterus" name="pe-female-uterus"></div>
+                    <div class="form-group"><label for="pe-female-rectovaginal">Rectovaginal exam (معاینه رکتوواژینال)</label><input type="text" id="pe-female-rectovaginal" name="pe-female-rectovaginal"></div>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>Neurological Exam — Mental State (معاینه نورولوژیک - Mental State)</legend>
+                <p class="fieldset-note">Level of consciousness (سطح هوشیاری)</p>
+                <div class="checkbox-grid">
+                    <div class="checkbox-group"><input type="checkbox" id="pe-neuro-alert" name="pe-neuro-level" value="alert"><label for="pe-neuro-alert">Alert & awake (هوشیار و بیدار)</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="pe-neuro-drowsy" name="pe-neuro-level" value="drowsy"><label for="pe-neuro-drowsy">Drowsy (خواب‌آلود)</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="pe-neuro-stupor" name="pe-neuro-level" value="stupor"><label for="pe-neuro-stupor">Stupor</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="pe-neuro-coma" name="pe-neuro-level" value="coma"><label for="pe-neuro-coma">Coma (کما)</label></div>
+                </div>
+                <p class="fieldset-note">Content of consciousness (محتوای هوشیاری)</p>
+                <div class="checkbox-grid">
+                    <div class="checkbox-group"><input type="checkbox" id="pe-neuro-orientplace" name="pe-neuro-content" value="oriented to place"><label for="pe-neuro-orientplace">Oriented to place (اورینته به مکان)</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="pe-neuro-orienttime" name="pe-neuro-content" value="oriented to time"><label for="pe-neuro-orienttime">Oriented to time (اورینته به زمان)</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="pe-neuro-orientperson" name="pe-neuro-content" value="oriented to person"><label for="pe-neuro-orientperson">Oriented to person (اورینته به اشخاص)</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="pe-neuro-confusion" name="pe-neuro-content" value="confusion"><label for="pe-neuro-confusion">Confusion (گیجی)</label></div>
+                    <div class="checkbox-group"><input type="checkbox" id="pe-neuro-delirium" name="pe-neuro-content" value="delirium"><label for="pe-neuro-delirium">Delirium (دلیریوم)</label></div>
+                </div>
+            </fieldset>
+
+        </div>
+    </details>
+</section>
+<section id="final-summary">
+    <h2>Paraclinical & Assessment</h2>
+
+    <div class="form-group">
+        <label for="lab-results">Lab tests, radiography, ECG results, etc. (نتایج تست‌های آزمایشگاهی، رادیوگرافی، نوار قلب و...)</label>
+        <textarea id="lab-results" name="lab-results" rows="3"></textarea>
+    </div>
+
+    <div class="form-group">
+        <label for="problem-list">Problem List</label>
+        <textarea id="problem-list" name="problem-list" rows="3"></textarea>
+    </div>
+
+    <div class="form-group">
+        <label for="ddx">DDx (Differential Diagnosis)</label>
+        <textarea id="ddx" name="ddx" rows="3"></textarea>
+    </div>
+
+</section>
+        <button type="button" id="save-btn" class="fab-btn" title="ذخیره بیمار">
+    <i data-lucide="check"></i>
+</button>
+      </form>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.js"></script>
+    <script src="app.js"></script>
+    <script>
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('sw.js');
+    }
+</script>
+  </body>
+</html>
